@@ -8,7 +8,7 @@ class Fish(name:String) : Pet(name)
 // It must be a Pet or one of its subtypes
 // so we can create contest objecrs that deal with Cars, Dogs or fish
 class Contest<T: Pet> {
-    // This defines a
+    // This defines a map
     val scores: MutableMap<T, Int> = mutableMapOf()
 }
 
