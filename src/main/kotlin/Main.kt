@@ -18,11 +18,23 @@ fun main() {
 
     val gamesTeam = Team<GamesPlayer>("g team", mutableListOf())
 
+    val footTeam2 = Team<Player>(
+        "F team",
+        mutableListOf<FootballPLayer>(FootballPLayer("Neymar"), FootballPLayer("Lewandowski"))
+    )
+
+    var gamesTeam1 = Team<CounterStrikePlayer> (
+        "Games team",
+        mutableListOf<GamesPlayer>(GamesPlayer("p1"), GamesPlayer("p2"))
+    )
+
 
 }
-// T stands for typer parameter
+// T stands for type parameter
 // <T: Player> restricts so only players are able
-class Team<T: Player>(val name: String, val players: MutableList<T>){
+// covariance out, I am going to accept the class and subclasses
+// countervariance when we want ot accept superclass
+class Team<T: Player>(val name: String, val players: MutableList<in T>){
     fun addPlayers(player: T){
         if (players.contains(player)) {
             println("${player.name} is already in the ${this.name} team")
@@ -39,5 +51,7 @@ class FootballPLayer(name: String) : Player(name)
 
 class BaseballPlayer(name: String) : Player(name)
 
-class GamesPlayer(name: String)
+open class GamesPlayer(name: String) : Player(name)
+
+class CounterStrikePlayer(name: String) : GamesPlayer(name)
 
