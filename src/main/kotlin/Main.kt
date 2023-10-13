@@ -1,23 +1,35 @@
-abstract class Pet(var name: String)
+// helpus give the compiler some hints about what kind of objects we are dealing with
+// this helps the compiler figure out some errors
+// generics are only a compile time feature
+// T is a generic type
 
-class Cat(name:String) : Pet(name)
-class Dog(name:String) : Pet(name)
-class Fish(name:String) : Pet(name)
+fun main() {
+    val foot = FootballPLayer("Messi")
+    val foot2 = FootballPLayer("Ronaldo")
 
-// This tells the compiler that T is a generic type.
-// It must be a Pet or one of its subtypes
-// so we can create contest objecrs that deal with Cars, Dogs or fish
-class Contest<T: Pet> {
-    // This defines a map
-    val scores: MutableMap<T, Int> = mutableMapOf()
+    val base = BaseballPlayer("base1")
+    val base2 = BaseballPlayer("base2")
+
+    val footTeam = Team<FootballPLayer>("Foot All Stars", mutableListOf(foot))
+    val baseTeam = Team<BaseballPlayer>("Baseball All Stars", mutableListOf(base))
+
+    footTeam.addPlayers(foot2)
+
+}
+// T stands for typer parameter
+class Team<T>(val name: String, val players: MutableList<T>){
+    fun addPlayers(player: T){
+        if (players.contains(player)) {
+            println("PLayer: ${(player as Player).name} is already in the ${this.name} team")
+        } else {
+            players.add(player)
+            println("PLayer: ${(player as Player).name} was added in the ${this.name} team")
+        }
+    }
 }
 
-fun main(args: Array<String>) {
-    println("Hello World!")
+open class Player(val name: String)
 
-    // Try adding program arguments via Run/Debug configuration.
-    // Learn more about running applications: https://www.jetbrains.com/help/idea/running-applications.html.
-    println("Program arguments: ${args.joinToString()}")
-}
+class FootballPLayer(name: String) : Player(name)
 
-
+class BaseballPlayer(name: String) : Player(name)
